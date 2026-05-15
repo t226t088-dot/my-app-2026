@@ -62,7 +62,11 @@ function renderCalendar() {
 
 function createDayElement(day, dateKey, year, month, isOtherMonth, isToday = false) {
     const dayDiv = document.createElement('div');
-    dayDiv.textContent = day;
+    
+    // 日付の数字用スパン
+    const dayNumber = document.createElement('span');
+    dayNumber.textContent = day;
+    dayDiv.appendChild(dayNumber);
     
     if (isOtherMonth) {
         dayDiv.style.opacity = '0.4'; // 他の月は薄く表示
@@ -72,11 +76,12 @@ function createDayElement(day, dateKey, year, month, isOtherMonth, isToday = fal
         dayDiv.classList.add('today');
     }
 
-    // イベントマーカーの追加
+    // 予定件数の表示
     if (events[dateKey] && events[dateKey].length > 0) {
-        const dot = document.createElement('span');
-        dot.classList.add('event-dot');
-        dayDiv.appendChild(dot);
+        const countSpan = document.createElement('span');
+        countSpan.classList.add('event-count');
+        countSpan.textContent = `${events[dateKey].length}件`;
+        dayDiv.appendChild(countSpan);
     }
 
     dayDiv.addEventListener('click', () => openModal(dateKey, year, month, day));
