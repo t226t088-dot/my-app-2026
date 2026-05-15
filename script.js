@@ -23,65 +23,62 @@ function renderCalendar() {
 
     const firstDayOfMonth = new Date(year, month, 1).getDay();
     const lastDateOfMonth = new Date(year, month + 1, 0).getDate();
-    
-    // 前月の最後の日を取得（空きスペースを埋めるため）
     const lastDateOfPrevMonth = new Date(year, month, 0).getDate();
 
     calendarDaysElement.innerHTML = '';
 
-    // 前月の日付を表示
+    // 前月の日付
     for (let i = firstDayOfMonth; i > 0; i--) {
-        const prevMonthDate = lastDateOfPrevMonth - i + 1;
+        const day = lastDateOfPrevMonth - i + 1;
         const prevYear = month === 0 ? year - 1 : year;
-        const prevMonth = month === 0 ? 12 : month;
-        const dateKey = `${prevYear}-${String(prevMonth).padStart(2, '0')}-${String(prevMonthDate).padStart(2, '0')}`;
-        
-        createDayElement(prevMonthDate, dateKey, prevYear, prevMonth, true);
+        const prevMonthNum = month === 0 ? 12 : month;
+        const dateKey = `${prevYear}-${String(prevMonthNum).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        createDayElement(day, dateKey, prevYear, prevMonthNum, true);
     }
 
-    // 当月の日付を表示
+    // 当月の日付
     const today = new Date();
     for (let i = 1; i <= lastDateOfMonth; i++) {
         const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
         const isToday = year === today.getFullYear() && month === today.getMonth() && i === today.getDate();
-        
         createDayElement(i, dateKey, year, month + 1, false, isToday);
     }
 
-    // 次月の日付を表示（グリッドを埋める）
+    // 次月の日付
     const totalDaysShown = calendarDaysElement.children.length;
-    const remainingDays = 42 - totalDaysShown; // 6行分(7x6=42)を常に表示
+    const remainingDays = 42 - totalDaysShown;
     for (let i = 1; i <= remainingDays; i++) {
         const nextYear = month === 11 ? year + 1 : year;
-        const nextMonth = month === 11 ? 1 : month + 2;
-        const dateKey = `${nextYear}-${String(nextMonth).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
-        
-        createDayElement(i, dateKey, nextYear, nextMonth, true);
+        const nextMonthNum = month === 11 ? 1 : month + 2;
+        const dateKey = `${nextYear}-${String(nextMonthNum).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+        createDayElement(i, dateKey, nextYear, nextMonthNum, true);
     }
 }
 
 function createDayElement(day, dateKey, year, month, isOtherMonth, isToday = false) {
     const dayDiv = document.createElement('div');
     
-    // 日付の数字用スパン
     const dayNumber = document.createElement('span');
     dayNumber.textContent = day;
+    dayNumber.style.fontSize = '1.1rem';
+    dayNumber.style.fontWeight = '500';
     dayDiv.appendChild(dayNumber);
     
     if (isOtherMonth) {
-        dayDiv.style.opacity = '0.4'; // 他の月は薄く表示
+        dayDiv.style.opacity = '0.3';
     }
     
     if (isToday) {
         dayDiv.classList.add('today');
     }
 
-    // 予定件数の表示
-    if (events[dateKey] && events[dateKey].length > 0) {
-        const countSpan = document.createElement('span');
-        countSpan.classList.add('event-count');
-        countSpan.textContent = `${events[dateKey].length}件`;
-        dayDiv.appendChild(countSpan);
+    // 予定件数の表示（ここを強化）
+    const dayEvents = events[dateKey] || [];
+    if (dayEvents.length > 0) {
+        const countBadge = document.createElement('span');
+        countBadge.classList.add('event-count');
+        countBadge.textContent = `${dayEvents.length}件`;
+        dayDiv.appendChild(countBadge);
     }
 
     dayDiv.addEventListener('click', () => openModal(dateKey, year, month, day));
@@ -101,7 +98,7 @@ function renderEvents() {
     const dayEvents = events[selectedDateKey] || [];
     
     if (dayEvents.length === 0) {
-        eventList.innerHTML = '<p style="opacity:0.6; text-align:center;">予定はありません</p>';
+        eventList.innerHTML = '<p style="opacity:0.5; text-align:center; padding: 20px;">予定はありません</p>';
         return;
     }
 
@@ -118,6 +115,8 @@ function renderEvents() {
 
 function deleteEvent(e, index) {
     if (e) e.stopPropagation();
+    if (!events[selectedDateKey]) return;
+    
     events[selectedDateKey].splice(index, 1);
     if (events[selectedDateKey].length === 0) {
         delete events[selectedDateKey];
@@ -130,15 +129,15 @@ window.deleteEvent = deleteEvent;
 function handleAddEvent() {
     const title = eventTitleInput.value.trim();
     if (!title) {
-        eventTitleInput.style.border = '1px solid #ff4b5c';
-        setTimeout(() => eventTitleInput.style.border = '1px solid var(--glass-border)', 1000);
+        eventTitleInput.style.borderColor = '#ff4b5c';
+        setTimeout(() => eventTitleInput.style.borderColor = 'rgba(255,255,255,0.3)', 1000);
         return;
     }
 
     if (!events[selectedDateKey]) {
         events[selectedDateKey] = [];
     }
-    events[selectedDateKey].push({ title });
+    events[selectedDateKey].push({ title: title });
     eventTitleInput.value = '';
     saveAndRefresh();
 }

@@ -5,6 +5,7 @@
     --glass-border: rgba(255, 255, 255, 0.3);
     --text-color: #333;
     --today-bg: rgba(255, 255, 255, 0.5);
+    --accent-color: #ff4b5c;
 }
 
 * {
@@ -51,8 +52,8 @@ body {
 }
 
 .calendar-container {
-    width: 90%;
-    max-width: 450px; /* 少し広げる */
+    width: 95%;
+    max-width: 450px;
     padding: 20px;
     background: var(--glass-bg);
     backdrop-filter: blur(10px);
@@ -101,54 +102,60 @@ body {
 .calendar-days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
+    gap: 8px; /* 隙間を少し広げる */
 }
 
 .calendar-days div {
     aspect-ratio: 1/1;
     display: flex;
-    flex-direction: column; /* 上下に並べる */
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    border-radius: 10px;
-    transition: background 0.3s;
+    border-radius: 12px;
+    transition: all 0.3s;
     position: relative;
-    padding: 5px 0;
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .calendar-days div:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
 }
 
 .calendar-days div.today {
     background: var(--today-bg);
     font-weight: bold;
-    border: 1px solid var(--glass-border);
+    border: 2px solid var(--glass-border);
 }
 
-/* 予定件数テキストのスタイル */
+/* 予定件数表示（目立つように修正） */
 .event-count {
-    font-size: 0.65rem;
-    color: #ff4b5c;
-    font-weight: bold;
-    margin-top: 2px;
+    background: var(--accent-color);
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-top: 4px;
     pointer-events: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .calendar-days div.empty {
     cursor: default;
+    background: none;
 }
 
 .calendar-days div.empty:hover {
     background: none;
+    transform: none;
 }
 
 /* モーダルスタイル */
 .modal {
     display: none;
     position: fixed;
-    z-index: 10;
+    z-index: 100;
     left: 0;
     top: 0;
     width: 100%;
@@ -160,15 +167,15 @@ body {
 }
 
 .modal-content {
-    background: var(--glass-bg);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
     padding: 25px;
-    border-radius: 20px;
-    width: 80%;
+    border-radius: 24px;
+    width: 90%;
     max-width: 400px;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.3);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
     color: var(--text-color);
 }
 
@@ -190,26 +197,29 @@ body {
 }
 
 .event-list {
-    max-height: 200px;
+    max-height: 250px;
     overflow-y: auto;
     margin-bottom: 20px;
+    padding-right: 5px;
 }
 
 .event-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    margin-bottom: 8px;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    border: 1px solid var(--glass-border);
 }
 
 .delete-event {
-    color: #ff4b5c;
+    color: var(--accent-color);
     cursor: pointer;
     font-weight: bold;
-    padding: 5px;
+    font-size: 1.2rem;
+    padding-left: 10px;
 }
 
 .event-form {
@@ -219,23 +229,25 @@ body {
 
 .event-form input {
     flex: 1;
-    padding: 10px;
-    border-radius: 10px;
+    padding: 12px;
+    border-radius: 12px;
     border: 1px solid var(--glass-border);
-    background: rgba(255, 255, 255, 0.1);
+    background: white;
     color: var(--text-color);
+    outline: none;
 }
 
 .event-form button {
-    padding: 10px 15px;
-    background: rgba(255, 255, 255, 0.3);
-    border: 1px solid var(--glass-border);
-    border-radius: 10px;
+    padding: 10px 20px;
+    background: var(--accent-color);
+    border: none;
+    border-radius: 12px;
     cursor: pointer;
-    color: var(--text-color);
-    transition: background 0.3s;
+    color: white;
+    font-weight: 600;
+    transition: opacity 0.3s;
 }
 
 .event-form button:hover {
-    background: rgba(255, 255, 255, 0.5);
+    opacity: 0.8;
 }
