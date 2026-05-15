@@ -112,6 +112,7 @@ body {
     cursor: pointer;
     border-radius: 10px;
     transition: background 0.3s;
+    position: relative; /* 子要素のdotの基準にする */
 }
 
 .calendar-days div:hover {
@@ -125,10 +126,6 @@ body {
 }
 
 /* イベントマーカー（ドット） */
-.calendar-days div {
-    position: relative;
-}
-
 .event-dot {
     position: absolute;
     bottom: 5px;
@@ -136,6 +133,7 @@ body {
     height: 6px;
     background: #ff4b5c;
     border-radius: 50%;
+    pointer-events: none; /* クリックイベントを背後の日付に渡す */
 }
 
 .calendar-days div.empty {
