@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glassmorphism Calendar</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background">
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+    
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <button id="prevMonth" class="nav-btn">&lt;</button>
+            <h2 id="monthYear" class="month-year">2026年 5月</h2>
+            <button id="nextMonth" class="nav-btn">&gt;</button>
+        </div>
+        
+        <div class="calendar-weekdays">
+            <div>日</div>
+            <div>月</div>
+            <div>火</div>
+            <div>水</div>
+            <div>木</div>
+            <div>金</div>
+            <div>土</div>
+        </div>
+        
+        <div id="calendarDays" class="calendar-days">
+            <!-- JavaScriptで動的に生成 -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
