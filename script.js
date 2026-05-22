@@ -123,9 +123,13 @@ document.addEventListener('DOMContentLoaded', () => {
             createDayElement(i, dateKey, year, month + 1, false, isToday);
         }
 
-        // 次月の日付
+        // 次月の日付（5行または6行に調整）
         const totalDaysShown = calendarDaysElement.children.length;
-        const remainingDays = 42 - totalDaysShown;
+        const rowsNeeded = Math.ceil(totalDaysShown / 7);
+        // 5行(35個)または6行(42個)のどちらか必要な方に合わせる
+        const targetCells = (totalDaysShown > 35) ? 42 : 35;
+        const remainingDays = targetCells - totalDaysShown;
+
         for (let i = 1; i <= remainingDays; i++) {
             const nextYear = month === 11 ? year + 1 : year;
             const nextMonthNum = month === 11 ? 1 : month + 2;

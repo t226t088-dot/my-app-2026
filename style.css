@@ -73,7 +73,7 @@ body {
 .calendar-container {
     width: 95%;
     max-width: 450px;
-    padding: 25px 15px;
+    padding: 20px 15px;
     background: var(--glass-bg);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
@@ -83,6 +83,7 @@ body {
     color: var(--text-color);
     position: relative;
     z-index: 1;
+    transition: height 0.3s ease;
 }
 
 .calendar-header {
@@ -163,8 +164,7 @@ body {
 }
 
 .calendar-days div {
-    aspect-ratio: 1/1;
-    min-height: 50px;
+    height: 55px;
     display: flex;
     flex-direction: column;
     justify-content: center;
