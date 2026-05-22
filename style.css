@@ -24,8 +24,10 @@ body {
     align-items: center;
     background: #fdfbfb;
     background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     position: relative;
+    padding: 40px 0;
 }
 
 .background {
@@ -71,12 +73,12 @@ body {
 .calendar-container {
     width: 95%;
     max-width: 450px;
-    padding: 30px;
+    padding: 25px 15px;
     background: var(--glass-bg);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border: 2px solid var(--glass-border);
-    border-radius: 40px; /* もっと丸く */
+    border-radius: 40px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
     color: var(--text-color);
     position: relative;
@@ -162,16 +164,38 @@ body {
 
 .calendar-days div {
     aspect-ratio: 1/1;
+    min-height: 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    border-radius: 18px; /* 丸みアップ */
+    border-radius: 18px;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
     background: rgba(255, 255, 255, 0.3);
     font-weight: 500;
+}
+
+@media (max-width: 450px) {
+    .calendar-container {
+        padding: 20px 10px;
+        border-radius: 30px;
+    }
+    .calendar-days {
+        gap: 5px;
+    }
+    .calendar-days div {
+        min-height: 40px;
+        border-radius: 12px;
+    }
+    .day-number {
+        font-size: 0.9rem;
+    }
+    .event-count {
+        font-size: 0.55rem;
+        padding: 1px 5px;
+    }
 }
 
 .event-count {
