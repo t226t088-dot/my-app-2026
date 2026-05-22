@@ -13,7 +13,16 @@ const closeBtn = document.querySelector('.close-btn');
 
 let currentDate = new Date();
 let selectedDateKey = ''; // "YYYY-MM-DD"形式
-let events = JSON.parse(localStorage.getItem('calendarEvents')) || {};
+let events = {};
+try {
+    const savedEvents = localStorage.getItem('calendarEvents');
+    if (savedEvents) {
+        events = JSON.parse(savedEvents);
+    }
+} catch (e) {
+    console.error('Failed to parse events:', e);
+    events = {};
+}
 
 const seasonalCharacters = [
     { emoji: '⛄', name: 'ゆきだるまくん' }, // 1月
@@ -30,34 +39,44 @@ const seasonalCharacters = [
     { emoji: '🎅', name: 'サンタさん' }    // 12月
 ];
 
+// キャラクターのセリフを更新する関数
 function updateCharacter() {
-    const month = currentDate.getMonth();
+    const today = new Date();
+    const month = today.getMonth();
     const character = seasonalCharacters[month];
+    
     const characterEmojiElement = document.getElementById('characterEmoji');
     const speechBubble = document.getElementById('speechBubble');
     const todayEventsText = document.getElementById('todayEventsText');
 
-    characterEmojiElement.textContent = character.emoji;
+    if (!characterEmojiElement || !speechBubble || !todayEventsText) return;
 
-    // 今日の日付キー
-    const today = new Date();
-    const dateKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-    const todayEvents = events[dateKey] || [];
+    // テキストを即座に更新
+    const year = today.getFullYear();
+    const monthNum = today.getMonth() + 1;
+    const dayNum = today.getDate();
+    const dateKey = `${year}-${String(monthNum).padStart(2, '0')}-${String(dayNum).padStart(2, '0')}`;
+    
+    let todayEvents = [];
+    if (events && events[dateKey]) {
+        todayEvents = events[dateKey];
+    }
 
     let message = `<b>${character.name}</b><br>`;
     if (todayEvents.length === 0) {
-        message += `やっほー！今日は予定がないみたい。のんびりしよう〜🍵`;
+        message += `やっほー！今日は特に予定はないみたい。のんびり過ごしてね🍵`;
     } else {
-        message += `おつかれさま！今日は予定が ${todayEvents.length} 件あるよ。一緒にがんばろうね✨`;
+        message += `おつかれさま！今日は <b>${todayEvents.length}件</b> の予定があるよ。応援してるね✨`;
     }
 
     todayEventsText.innerHTML = message;
+    characterEmojiElement.textContent = character.emoji;
 
     // 吹き出しを表示
     speechBubble.classList.add('show');
 }
 
-// キャラクタークリックで表示切替（一回だけ登録）
+// キャラクタークリックで表示切替
 document.getElementById('seasonalCharacterContainer').addEventListener('click', () => {
     document.getElementById('speechBubble').classList.toggle('show');
 });
