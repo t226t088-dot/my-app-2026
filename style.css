@@ -158,7 +158,7 @@ body {
     aspect-ratio: 1/1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     cursor: pointer;
     border-radius: 18px; /* 丸みアップ */
@@ -166,6 +166,38 @@ body {
     position: relative;
     background: rgba(255, 255, 255, 0.3);
     font-weight: 500;
+    padding: 5px 2px;
+}
+
+.day-events-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 2px;
+    padding: 0 4px;
+    overflow: hidden;
+}
+
+.calendar-event-title {
+    background: var(--accent-color);
+    color: white;
+    font-size: 0.55rem;
+    padding: 1px 4px;
+    border-radius: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.more-events {
+    font-size: 0.5rem;
+    opacity: 0.6;
+    text-align: center;
+    font-weight: 700;
 }
 
 .calendar-days div:hover {
@@ -274,16 +306,6 @@ body {
 .calendar-days div:nth-child(7n+1) { color: var(--sunday-color); }
 .calendar-days div:nth-child(7n) { color: var(--saturday-color); }
 .calendar-days div.today { color: white; }
-
-.event-count {
-    background: var(--accent-color);
-    color: white;
-    font-size: 0.65rem;
-    padding: 2px 8px;
-    border-radius: 20px;
-    margin-top: 4px;
-    pointer-events: none;
-}
 
 .calendar-days div.empty {
     cursor: default;

@@ -142,13 +142,29 @@ function createDayElement(day, dateKey, year, month, isOtherMonth, isToday = fal
         dayDiv.classList.add('today');
     }
 
-    // 予定件数の表示（ここを強化）
+    // 予定の表示（タイトルを直接表示）
     const dayEvents = events[dateKey] || [];
     if (dayEvents.length > 0) {
-        const countBadge = document.createElement('span');
-        countBadge.classList.add('event-count');
-        countBadge.textContent = `${dayEvents.length}件`;
-        dayDiv.appendChild(countBadge);
+        const eventsContainer = document.createElement('div');
+        eventsContainer.classList.add('day-events-container');
+        
+        // 最大2件まで表示
+        dayEvents.slice(0, 2).forEach(event => {
+            const eventTitle = document.createElement('div');
+            eventTitle.classList.add('calendar-event-title');
+            eventTitle.textContent = event.title;
+            eventsContainer.appendChild(eventTitle);
+        });
+        
+        // 3件以上ある場合は「+他n件」を表示
+        if (dayEvents.length > 2) {
+            const moreEvents = document.createElement('div');
+            moreEvents.classList.add('more-events');
+            moreEvents.textContent = `他${dayEvents.length - 2}件`;
+            eventsContainer.appendChild(moreEvents);
+        }
+        
+        dayDiv.appendChild(eventsContainer);
     }
 
     dayDiv.addEventListener('click', () => openModal(dateKey, year, month, day));
