@@ -164,7 +164,7 @@ body {
     aspect-ratio: 1/1;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     cursor: pointer;
     border-radius: 18px; /* 丸みアップ */
@@ -172,40 +172,55 @@ body {
     position: relative;
     background: rgba(255, 255, 255, 0.3);
     font-weight: 500;
-    padding: 8px 2px;
-    min-height: 0;
 }
 
-.day-events-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    padding: 0 6px;
-    overflow: hidden;
-}
-
-.calendar-event-title {
+.event-count {
     background: var(--accent-color);
     color: white;
-    font-size: 0.6rem;
-    padding: 2px 5px;
-    border-radius: 6px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%;
-    text-align: left;
-    line-height: 1.1;
-    box-shadow: 0 2px 5px rgba(255, 154, 158, 0.2);
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-top: 4px;
+    pointer-events: none;
+    box-shadow: 0 4px 10px rgba(255, 154, 158, 0.3);
 }
 
-.more-events {
-    font-size: 0.55rem;
-    opacity: 0.6;
-    text-align: center;
-    font-weight: 700;
-    margin-top: 1px;
+/* ホバー時の吹き出し */
+.day-tooltip {
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: white;
+    padding: 10px 15px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    font-size: 0.75rem;
+    color: var(--text-color);
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 100;
+    border: 1px solid var(--glass-border);
+    pointer-events: none;
+}
+
+.day-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 8px 8px 0;
+    border-style: solid;
+    border-color: white transparent;
+}
+
+.calendar-days div:hover .day-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
 }
 
 .calendar-days div:hover {

@@ -156,30 +156,23 @@ document.addEventListener('DOMContentLoaded', () => {
         // 予定の表示（タイトルを直接表示）
         const dayEvents = events[dateKey] || [];
         if (dayEvents.length > 0) {
-            dayNumber.style.fontSize = '0.9rem'; // 予定があるときは数字を小さく
-            const eventsContainer = document.createElement('div');
-            eventsContainer.classList.add('day-events-container');
-            
-            // 最大2件まで表示
-            dayEvents.slice(0, 2).forEach(event => {
-                const eventTitle = document.createElement('div');
-                eventTitle.classList.add('calendar-event-title');
-                eventTitle.textContent = event.title;
-                eventTitle.title = event.title; // ホバーでフル表示
-                eventsContainer.appendChild(eventTitle);
-            });
-            
-            // 3件以上ある場合は「+n」を表示
-            if (dayEvents.length > 2) {
-                const moreEvents = document.createElement('div');
-                moreEvents.classList.add('more-events');
-                moreEvents.textContent = `+${dayEvents.length - 2}`;
-                eventsContainer.appendChild(moreEvents);
-            }
-            
-            dayDiv.appendChild(eventsContainer);
-        }
+            // デフォルトは件数表示に戻す
+            const countBadge = document.createElement('span');
+            countBadge.classList.add('event-count');
+            countBadge.textContent = `${dayEvents.length}件`;
+            dayDiv.appendChild(countBadge);
 
+            // ホバー時に表示する吹き出し（ツールチップ）を作成
+            const tooltip = document.createElement('div');
+            tooltip.classList.add('day-tooltip');
+
+            let tooltipContent = '<b>予定リスト</b><br>';
+            dayEvents.forEach(ev => {
+                tooltipContent += `・${ev.title}<br>`;
+            });
+            tooltip.innerHTML = tooltipContent;
+            dayDiv.appendChild(tooltip);
+            }
         dayDiv.addEventListener('click', () => openModal(dateKey, year, month, day));
         calendarDaysElement.appendChild(dayDiv);
     }
