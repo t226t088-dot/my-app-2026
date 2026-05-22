@@ -66,7 +66,12 @@ function updateCharacter() {
     if (todayEvents.length === 0) {
         message += `やっほー！今日は特に予定はないみたい。のんびり過ごしてね🍵`;
     } else {
-        message += `おつかれさま！今日は <b>${todayEvents.length}件</b> の予定があるよ。応援してるね✨`;
+        message += `おつかれさま！今日は <b>${todayEvents.length}件</b> の予定があるよ：<br>`;
+        todayEvents.slice(0, 2).forEach(ev => {
+            message += `・${ev.title}<br>`;
+        });
+        if (todayEvents.length > 2) message += `などなど...✨`;
+        else message += `がんばろうね！✨`;
     }
 
     todayEventsText.innerHTML = message;
@@ -130,8 +135,7 @@ function createDayElement(day, dateKey, year, month, isOtherMonth, isToday = fal
     
     const dayNumber = document.createElement('span');
     dayNumber.textContent = day;
-    dayNumber.style.fontSize = '1.1rem';
-    dayNumber.style.fontWeight = '500';
+    dayNumber.classList.add('day-number');
     dayDiv.appendChild(dayNumber);
     
     if (isOtherMonth) {
@@ -145,6 +149,7 @@ function createDayElement(day, dateKey, year, month, isOtherMonth, isToday = fal
     // 予定の表示（タイトルを直接表示）
     const dayEvents = events[dateKey] || [];
     if (dayEvents.length > 0) {
+        dayNumber.style.fontSize = '0.9rem'; // 予定があるときは数字を小さく
         const eventsContainer = document.createElement('div');
         eventsContainer.classList.add('day-events-container');
         
@@ -153,14 +158,15 @@ function createDayElement(day, dateKey, year, month, isOtherMonth, isToday = fal
             const eventTitle = document.createElement('div');
             eventTitle.classList.add('calendar-event-title');
             eventTitle.textContent = event.title;
+            eventTitle.title = event.title; // ホバーでフル表示
             eventsContainer.appendChild(eventTitle);
         });
         
-        // 3件以上ある場合は「+他n件」を表示
+        // 3件以上ある場合は「+n」を表示
         if (dayEvents.length > 2) {
             const moreEvents = document.createElement('div');
             moreEvents.classList.add('more-events');
-            moreEvents.textContent = `他${dayEvents.length - 2}件`;
+            moreEvents.textContent = `+${dayEvents.length - 2}`;
             eventsContainer.appendChild(moreEvents);
         }
         
