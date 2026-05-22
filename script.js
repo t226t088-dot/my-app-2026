@@ -1,4 +1,4 @@
-// v1.1.2 - ふんわりカレンダー改善版
+// v1.1.5 - ふんわりカレンダー安定版
 document.addEventListener('DOMContentLoaded', () => {
     const monthYearElement = document.getElementById('monthYear');
     const calendarDaysElement = document.getElementById('calendarDays');
@@ -123,11 +123,9 @@ document.addEventListener('DOMContentLoaded', () => {
             createDayElement(i, dateKey, year, month + 1, false, isToday);
         }
 
-        // 次月の日付（5行または6行に調整）
+        // 次月の日付（常に6行分表示してサイズを安定させる）
         const totalDaysShown = calendarDaysElement.children.length;
-        const rowsNeeded = Math.ceil(totalDaysShown / 7);
-        // 5行(35個)または6行(42個)のどちらか必要な方に合わせる
-        const targetCells = (totalDaysShown > 35) ? 42 : 35;
+        const targetCells = 42;
         const remainingDays = targetCells - totalDaysShown;
 
         for (let i = 1; i <= remainingDays; i++) {

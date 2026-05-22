@@ -73,7 +73,7 @@ body {
 .calendar-container {
     width: 95%;
     max-width: 450px;
-    padding: 20px 15px;
+    padding: 20px;
     background: var(--glass-bg);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
@@ -83,7 +83,6 @@ body {
     color: var(--text-color);
     position: relative;
     z-index: 1;
-    transition: height 0.3s ease;
 }
 
 .calendar-header {
@@ -154,7 +153,7 @@ body {
 .calendar-days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
+    gap: 8px;
 }
 
 .day-number {
@@ -164,7 +163,8 @@ body {
 }
 
 .calendar-days div {
-    height: 55px;
+    aspect-ratio: 1/1;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -175,27 +175,6 @@ body {
     position: relative;
     background: rgba(255, 255, 255, 0.3);
     font-weight: 500;
-}
-
-@media (max-width: 450px) {
-    .calendar-container {
-        padding: 20px 10px;
-        border-radius: 30px;
-    }
-    .calendar-days {
-        gap: 5px;
-    }
-    .calendar-days div {
-        min-height: 40px;
-        border-radius: 12px;
-    }
-    .day-number {
-        font-size: 0.9rem;
-    }
-    .event-count {
-        font-size: 0.55rem;
-        padding: 1px 5px;
-    }
 }
 
 .event-count {
@@ -461,4 +440,21 @@ body {
     color: white;
     font-weight: 700;
     box-shadow: 0 5px 15px rgba(255, 154, 158, 0.3);
+}
+
+@media (max-width: 450px) {
+    .calendar-container {
+        padding: 15px 10px;
+    }
+    .calendar-days {
+        gap: 4px;
+    }
+    .day-number {
+        font-size: 0.9rem;
+    }
+    .event-count {
+        font-size: 0.5rem;
+        padding: 1px 4px;
+        margin-top: 2px;
+    }
 }
