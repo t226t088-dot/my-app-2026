@@ -15,9 +15,60 @@ let currentDate = new Date();
 let selectedDateKey = ''; // "YYYY-MM-DD"形式
 let events = JSON.parse(localStorage.getItem('calendarEvents')) || {};
 
+const seasonalCharacters = [
+    { emoji: '⛄', name: 'ゆきだるまくん' }, // 1月
+    { emoji: '👹', name: 'おにくん' },     // 2月
+    { emoji: '🐰', name: 'うさぎちゃん' }, // 3月
+    { emoji: '🌸', name: 'さくらちゃん' }, // 4月
+    { emoji: '🎏', name: 'こいのぼりくん' }, // 5月
+    { emoji: '🐸', name: 'かえるくん' },   // 6月
+    { emoji: '🎋', name: 'おりひめちゃん' }, // 7月
+    { emoji: '🍦', name: 'ソフトくん' },   // 8月
+    { emoji: '🎑', name: 'おつきみうさぎ' }, // 9月
+    { emoji: '🎃', name: 'かぼちゃくん' }, // 10月
+    { emoji: '🐿️', name: 'りすくん' },     // 11月
+    { emoji: '🎅', name: 'サンタさん' }    // 12月
+];
+
+function updateCharacter() {
+    const month = currentDate.getMonth();
+    const character = seasonalCharacters[month];
+    const characterEmojiElement = document.getElementById('characterEmoji');
+    const speechBubble = document.getElementById('speechBubble');
+    const todayEventsText = document.getElementById('todayEventsText');
+
+    characterEmojiElement.textContent = character.emoji;
+
+    // 今日の日付キー
+    const today = new Date();
+    const dateKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    const todayEvents = events[dateKey] || [];
+
+    let message = '';
+    if (todayEvents.length === 0) {
+        message = `今日は予定がないよ！のんびりしよう〜🍵`;
+    } else {
+        message = `今日は予定が ${todayEvents.length} 件あるよ！ふぁいと〜✨`;
+    }
+
+    todayEventsText.textContent = message;
+
+    // 2秒後に吹き出しを表示
+    setTimeout(() => {
+        speechBubble.classList.add('show');
+    }, 1000);
+
+    // キャラクタークリックで再度表示
+    document.getElementById('seasonalCharacterContainer').addEventListener('click', () => {
+        speechBubble.classList.toggle('show');
+    });
+}
+
 function renderCalendar() {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
+
+    updateCharacter();
 
     const emojis = ['❄️', '🍫', '🌸', '🌱', '🎏', '☔', '🎋', '🌻', '🎑', '🎃', '🍂', '🎄'];
     const emoji = emojis[month] || '';

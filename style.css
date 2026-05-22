@@ -194,6 +194,77 @@ body {
     animation: rotate 3s linear infinite;
 }
 
+/* キャラクターと吹き出し */
+.character-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 50;
+    cursor: pointer;
+}
+
+.character-emoji {
+    font-size: 4rem;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
+    animation: characterFloat 3s ease-in-out infinite;
+    transition: transform 0.3s;
+}
+
+.character-container:hover .character-emoji {
+    transform: scale(1.1) rotate(10deg);
+}
+
+@keyframes characterFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+.speech-bubble {
+    background: white;
+    padding: 15px 20px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    margin-bottom: 15px;
+    position: relative;
+    max-width: 200px;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    border: 2px solid var(--accent-color);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none;
+}
+
+.speech-bubble.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    right: 30px;
+    border-width: 12px 12px 0;
+    border-style: solid;
+    border-color: var(--accent-color) transparent;
+}
+
+.speech-bubble::before {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    right: 31px;
+    border-width: 10px 10px 0;
+    border-style: solid;
+    border-color: white transparent;
+    z-index: 1;
+}
+
 @keyframes rotate {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
