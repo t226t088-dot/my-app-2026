@@ -44,25 +44,23 @@ function updateCharacter() {
     const dateKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
     const todayEvents = events[dateKey] || [];
 
-    let message = '';
+    let message = `<b>${character.name}</b><br>`;
     if (todayEvents.length === 0) {
-        message = `今日は予定がないよ！のんびりしよう〜🍵`;
+        message += `やっほー！今日は予定がないみたい。のんびりしよう〜🍵`;
     } else {
-        message = `今日は予定が ${todayEvents.length} 件あるよ！ふぁいと〜✨`;
+        message += `おつかれさま！今日は予定が ${todayEvents.length} 件あるよ。一緒にがんばろうね✨`;
     }
 
-    todayEventsText.textContent = message;
+    todayEventsText.innerHTML = message;
 
-    // 2秒後に吹き出しを表示
-    setTimeout(() => {
-        speechBubble.classList.add('show');
-    }, 1000);
-
-    // キャラクタークリックで再度表示
-    document.getElementById('seasonalCharacterContainer').addEventListener('click', () => {
-        speechBubble.classList.toggle('show');
-    });
+    // 吹き出しを表示
+    speechBubble.classList.add('show');
 }
+
+// キャラクタークリックで表示切替（一回だけ登録）
+document.getElementById('seasonalCharacterContainer').addEventListener('click', () => {
+    document.getElementById('speechBubble').classList.toggle('show');
+});
 
 function renderCalendar() {
     const year = currentDate.getFullYear();
