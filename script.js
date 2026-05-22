@@ -19,7 +19,9 @@ function renderCalendar() {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
 
-    monthYearElement.textContent = `${year}年 ${month + 1}月`;
+    const emojis = ['❄️', '🍫', '🌸', '🌱', '🎏', '☔', '🎋', '🌻', '🎑', '🎃', '🍂', '🎄'];
+    const emoji = emojis[month] || '';
+    monthYearElement.innerHTML = `${year}<span>年</span> ${month + 1}<span>月</span> <span class="header-emoji">${emoji}</span>`;
 
     const firstDayOfMonth = new Date(year, month, 1).getDay();
     const lastDateOfMonth = new Date(year, month + 1, 0).getDate();
@@ -98,7 +100,7 @@ function renderEvents() {
     const dayEvents = events[selectedDateKey] || [];
     
     if (dayEvents.length === 0) {
-        eventList.innerHTML = '<p style="opacity:0.5; text-align:center; padding: 20px;">予定はありません</p>';
+        eventList.innerHTML = '<p style="opacity:0.5; text-align:center; padding: 20px;">まだ予定はないよ 🕊️</p>';
         return;
     }
 
