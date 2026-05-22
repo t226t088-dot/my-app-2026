@@ -30,12 +30,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const seasonalCharacters = [
         { emoji: '⛄', name: 'ゆきだるまくん' }, // 1月
         { emoji: '👹', name: 'おにくん' },     // 2月
-        { emoji: '🐰', name: 'うさぎちゃん' }, // 3月
+        { emoji: '🎎', name: 'おひなさま' },   // 3月
         { emoji: '🌸', name: 'さくらちゃん' }, // 4月
         { emoji: '🎏', name: 'こいのぼりくん' }, // 5月
         { emoji: '🐸', name: 'かえるくん' },   // 6月
         { emoji: '🎋', name: 'おりひめちゃん' }, // 7月
-        { emoji: '🍦', name: 'ソフトくん' },   // 8月
+        { emoji: '🌻', name: 'ひまわりちゃん' }, // 8月
         { emoji: '🎑', name: 'おつきみうさぎ' }, // 9月
         { emoji: '🎃', name: 'かぼちゃくん' }, // 10月
         { emoji: '🐿️', name: 'りすくん' },     // 11月
@@ -43,10 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     // キャラクターのセリフを更新する関数
-    function updateCharacter() {
-        const today = new Date();
-        const month = today.getMonth();
-        const character = seasonalCharacters[month];
+    function updateCharacter(displayMonth) {
+        const character = seasonalCharacters[displayMonth];
         
         const characterEmojiElement = document.getElementById('characterEmoji');
         const speechBubble = document.getElementById('speechBubble');
@@ -54,11 +52,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!characterEmojiElement || !speechBubble || !todayEventsText) return;
 
-        // テキストを即座に更新
-        const year = today.getFullYear();
-        const monthNum = today.getMonth() + 1;
-        const dayNum = today.getDate();
-        const dateKey = `${year}-${String(monthNum).padStart(2, '0')}-${String(dayNum).padStart(2, '0')}`;
+        characterEmojiElement.textContent = character.emoji;
+
+        // セリフは「今日」の予定について話す
+        const today = new Date();
+        const dateKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
         
         let todayEvents = [];
         if (events && events[dateKey]) {
@@ -78,7 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         todayEventsText.innerHTML = message;
-        characterEmojiElement.textContent = character.emoji;
 
         // 吹き出しを表示
         speechBubble.classList.add('show');
@@ -97,9 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const year = currentDate.getFullYear();
         const month = currentDate.getMonth();
 
-        updateCharacter();
+        updateCharacter(month); // 表示中の月に合わせる
 
-        const emojis = ['❄️', '🍫', '🌸', '🌱', '🎏', '☔', '🎋', '🌻', '🎑', '🎃', '🍂', '🎄'];
+        const emojis = ['🎍', '🍫', '🎎', '🌸', '🎏', '☔', '🎋', '🌻', '🎑', '🎃', '🍂', '🎄'];
         const emoji = emojis[month] || '';
         monthYearElement.innerHTML = `${year}<span>年</span> ${month + 1}<span>月</span> <span class="header-emoji">${emoji}</span>`;
 
